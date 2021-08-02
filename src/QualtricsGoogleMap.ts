@@ -99,6 +99,28 @@ const initGoogleMapsQuestion = (
     google.maps.event.addListener(locationAutocomplete, 'place_changed', () => {
       const place = locationAutocomplete.getPlace();
 
+      // set all to null in case two places are loaded. want to make sure we only have the info of the most recent place
+      Qualtrics.SurveyEngine.setEmbeddedData('G_ADDRESS', undefined);
+      Qualtrics.SurveyEngine.setEmbeddedData('G_NAME', undefined);
+      Qualtrics.SurveyEngine.setEmbeddedData('G_PLACE_ID', undefined);
+      Qualtrics.SurveyEngine.setEmbeddedData('G_PRICE', undefined);
+      Qualtrics.SurveyEngine.setEmbeddedData('G_RATING', undefined);
+      Qualtrics.SurveyEngine.setEmbeddedData('G_NEIGHBORHOOD', undefined);
+
+      // now set to new values
+      Qualtrics.SurveyEngine.setEmbeddedData('G_ADDRESS', place.formatted_address);
+      Qualtrics.SurveyEngine.setEmbeddedData('G_NAME', place.name);
+      Qualtrics.SurveyEngine.setEmbeddedData('G_PLACE_ID', place.place_id);
+      Qualtrics.SurveyEngine.setEmbeddedData('G_PRICE', place.price_level);
+      Qualtrics.SurveyEngine.setEmbeddedData('G_RATING', place.rating);
+
+      const neighborhood: google.maps.GeocoderAddressComponent[] | undefined = place.address_components?.filter((component: google.maps.GeocoderAddressComponent) => {
+        return component.types.some((type: String) => type === 'neighborhood');
+      });
+      if (neighborhood && neighborhood?.length >= 0) {
+        Qualtrics.SurveyEngine.setEmbeddedData('G_NEIGHBORHOOD', neighborhood[0].long_name);
+      }
+
       if (place.geometry) {
         mapMarker.setPosition(place.geometry.location);
         googleMap.panTo(place.geometry.location);
