@@ -102,12 +102,12 @@ const initGoogleMapsQuestion = (
       if (place.geometry) {
         mapMarker.setPosition(place.geometry.location);
         googleMap.panTo(place.geometry.location);
-        Qualtrics.SurveyEngine.setEmbeddedData("PRICE", "testfrom ts");
+        Qualtrics.SurveyEngine.setEmbeddedData('PRICE', 'testfrom ts');
       } else {
         alert(map.marker.autocomplete?.invalidLocationAlertText || 'Invalid Location');
       }
     });
-  };
+  }
 };
 
 // Typescript doesn't allow augmentation of the global scope except in modules, but we need to expose this to the global scope
