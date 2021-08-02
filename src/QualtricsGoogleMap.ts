@@ -108,7 +108,7 @@ const initGoogleMapsQuestion = (
       Qualtrics.SurveyEngine.setEmbeddedData('G_RATING', place.rating);
 
       const neighborhood: google.maps.GeocoderAddressComponent[] | undefined = place.address_components?.filter((component: google.maps.GeocoderAddressComponent) => {
-        return component.types.some((type: String) => type === 'neighborhood');
+        return component.types.some((type: string) => type === 'neighborhood');
       });
       if (neighborhood && neighborhood?.length >= 0) {
         Qualtrics.SurveyEngine.setEmbeddedData('G_NEIGHBORHOOD', neighborhood[0].long_name);
