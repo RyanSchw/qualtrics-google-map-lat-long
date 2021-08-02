@@ -56,11 +56,10 @@ const initGoogleMapsQuestion = (
   // Initialize the Google Map
   const googleMap = new google.maps.Map(mapObject, map.options);
 
-  // Initialize the Marker
+  // Initialize the Marker without a location at first
   const mapMarker = new google.maps.Marker({
     ...map.marker.options,
     map: googleMap,
-    position: map.options.center,
   });
 
   if (map.marker.autocomplete?.enabled) {
