@@ -39,12 +39,6 @@ const initGoogleMapsQuestion = (
   // Initialize data storage or load from existing data in field
   const value: { [key: number]: google.maps.LatLng } = dataBox.value !== '' ? JSON.parse(dataBox.value) : {};
 
-  // Function to set the dataBox to a lat/lng
-  const setLatLng = (key: number, latLng: google.maps.LatLng) => {
-    value[key] = latLng;
-    dataBox.value = JSON.stringify(value);
-  };
-
   const styles = document.createElement('style');
   document.head.appendChild(styles);
 
