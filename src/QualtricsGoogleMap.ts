@@ -117,6 +117,7 @@ const initGoogleMapsQuestion = (
       if (place.geometry) {
         mapMarker.setPosition(place.geometry.location);
         googleMap.panTo(place.geometry.location);
+        googleMap.setZoom(16);
       } else {
         alert(map.marker.autocomplete?.invalidLocationAlertText || 'Invalid Location');
       }
