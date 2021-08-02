@@ -29,3 +29,9 @@ jobs:
         run: npm run build
         env:
           CI: true
+
+      - name: 'Upload Artifact'
+        uses: actions/upload-artifact@v2
+        with:
+          name: build-result
+          path: dist/QualtricsGoogleMap.min.js
