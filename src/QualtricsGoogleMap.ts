@@ -21,6 +21,16 @@ interface Question {
   map: Map;
 }
 
+const IMPORTANT_TYPES: string[] = [
+  'tourist_attraction',
+  'museum',
+  'night_club',
+  'bar',
+  'food',
+  'park',
+  'restaurant'
+]
+
 const initGoogleMapsQuestion = (
   id: Question['id'],
   container: Question['container'],
@@ -98,6 +108,7 @@ const initGoogleMapsQuestion = (
       Qualtrics.SurveyEngine.setEmbeddedData('G_PLACE_ID', undefined);
       Qualtrics.SurveyEngine.setEmbeddedData('G_PRICE', undefined);
       Qualtrics.SurveyEngine.setEmbeddedData('G_RATING', undefined);
+      Qualtrics.SurveyEngine.setEmbeddedData('G_MAIN_TYPE', undefined);
       Qualtrics.SurveyEngine.setEmbeddedData('G_NEIGHBORHOOD', undefined);
 
       // now set to new values
@@ -107,10 +118,20 @@ const initGoogleMapsQuestion = (
       Qualtrics.SurveyEngine.setEmbeddedData('G_PRICE', place.price_level);
       Qualtrics.SurveyEngine.setEmbeddedData('G_RATING', place.rating);
 
+      // google lists the most important "type" first, so go in order of the array
+      if (place.types) {
+        for (const type of place.types) {
+          if (IMPORTANT_TYPES.indexOf(type) > -1) {
+            Qualtrics.SurveyEngine.setEmbeddedData('G_MAIN_TYPE', type);
+            break;
+          }
+        }
+      }
+
       const neighborhood: google.maps.GeocoderAddressComponent[] | undefined = place.address_components?.filter((component: google.maps.GeocoderAddressComponent) => {
         return component.types.some((type: string) => type === 'neighborhood');
       });
-      if (neighborhood && neighborhood?.length >= 0) {
+      if (neighborhood && neighborhood?.length > 0) {
         Qualtrics.SurveyEngine.setEmbeddedData('G_NEIGHBORHOOD', neighborhood[0].long_name);
       }
 
